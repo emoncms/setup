@@ -21,7 +21,7 @@ class Setup
         }
 
         // check to see if 'network' string is in wpa_supplicant, if present indicates that WiFi has been configured
-        if( strpos(file_get_contents("/etc/wpa_supplicant/wpa_supplicant.conf"),"network") == false) {
+        if( strpos(file_get_contents("/etc/wpa_supplicant/wpa_supplicant-wlan0.conf"),"network") == false) {
             if ($wifi=="client") $wifi = "unconfigured";
         } else {
             if ($wifi=="unconfigured") $wifi = "client";
