@@ -14,30 +14,13 @@ function setup_controller()
     require_once "Modules/setup/setup_model.php";
     $setup = new Setup($mysqli);
     
-    if ($route->action=="status") {
-        $route->format = "text";
-        $result = $setup->status();
-    }
-    
-    else if ($route->action=="setwifi" && $setup_access) {
+    if ($route->action=="set_status" && $setup_access) {
         $route->format = "text"; 
         $result = $setup->set_status(get("mode"));
     }
-    
-    else if ($route->action=="ethernet-status" && $setup_access) {
-        $route->format = "text";
-        $result = exec("cat /sys/class/net/eth0/operstate");
-        if ($result=="down") $result = "false";
-    }
-    
-    else if ($route->action=="wlan0-status" && $setup_access) {
-        $route->format = "text";
-        $result = exec("cat /sys/class/net/wlan0/operstate");
-        if ($result=="down") $result = "false";
-    }
 
     else if ($route->action=="" && $setup_access) {
-        $result = view("Modules/setup/hello.php",array());
+        $result = view("Modules/network/network_view.php",array("mode"=>"setup"));
     }
     
     $fullwidth = false;
