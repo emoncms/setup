@@ -20,7 +20,11 @@ function setup_controller()
     }
 
     else if ($route->action=="" && $setup_access) {
-        $result = view("Modules/network/network_view.php",array("mode"=>"setup"));
+        if (file_exists("Modules/network/network_view.php")) {
+            $result = view("Modules/network/network_view.php",array("mode"=>"setup"));
+        } else {
+            return ''; // empty strings force user back to login
+        }
     }
     
     $fullwidth = false;

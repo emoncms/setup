@@ -1,6 +1,6 @@
 {
     "name"         : "Network Setup",
-    "version"      : "1.0.3",
+    "version"      : "1.0.4",
     "location"     : "/var/www/emoncms/Modules",
     "branches_available": ["stable","master"]
 }
