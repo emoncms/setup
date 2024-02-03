@@ -9,7 +9,9 @@ function setup_controller()
 
     // Special setup access to WIFI function scan and setconfig
     $setup_access = false;
-    if (isset($_SESSION['setup_access']) && $_SESSION['setup_access']) $setup_access = true;
+    if (isset($_SESSION['setup_access']) && $_SESSION['setup_access']===true) {
+        $setup_access = true;
+    }
     
     require_once "Modules/setup/setup_model.php";
     $setup = new Setup($mysqli);
@@ -19,11 +21,19 @@ function setup_controller()
         $result = $setup->set_status(get("mode"));
     }
 
-    else if ($route->action=="" && $setup_access) {
-        if (file_exists("Modules/network/network_view.php")) {
-            $result = view("Modules/network/network_view.php",array("mode"=>"setup"));
-        } else {
-            return ''; // empty strings force user back to login
+    if ($session["write"] || $setup_access || $route->is_ap) {
+    
+        $setup_write = false;
+        if ($session["write"] || $setup_access) {
+            $setup_write = true;
+        }
+    
+        if ($route->action=="") {
+            if (file_exists("Modules/network/network_view.php")) {
+                $result = view("Modules/network/network_view.php",array("mode"=>"setup", "write"=>$setup_write));
+            } else {
+                return ''; // empty strings force user back to login
+            }
         }
     }
     
