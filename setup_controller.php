@@ -7,14 +7,13 @@ function setup_controller()
 
     $result = false;
 
-    // Special setup access to WIFI function scan and setconfig
-    $setup_access = false;
-    if (isset($_SESSION['setup_access']) && $_SESSION['setup_access']===true) {
-        $setup_access = true;
-    }
-    
     require_once "Modules/setup/setup_model.php";
     $setup = new Setup($mysqli);
+
+    $setup_access = false;
+    if ($setup->status()=="unconfigured") {
+        $setup_access = true;
+    }
     
     if ($route->action=="set_status" && $setup_access) {
         $route->format = "text"; 
